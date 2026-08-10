@@ -1,0 +1,903 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPIDER-VERSE | Spider-Man Movie Universe</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    font-family:Poppins,Arial,sans-serif;
+    color:#fff;
+    background:#07080d;
+    overflow-x:hidden;
+}
+body:before{
+    content:"";
+    position:fixed;inset:0;z-index:-3;
+    background:
+      radial-gradient(circle at 15% 15%,#e31b23 0,transparent 28%),
+      radial-gradient(circle at 85% 75%,#0754c8 0,transparent 30%),
+      linear-gradient(135deg,#090a10,#11080d 45%,#061020);
+    opacity:.65;
+}
+body:after{
+    content:"";
+    position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background-image:linear-gradient(120deg,transparent 48%,rgba(255,255,255,.035) 49%,transparent 50%);
+    background-size:70px 70px;
+    animation:webMove 10s linear infinite;
+}
+@keyframes webMove{to{background-position:140px 140px}}
+
+nav{
+    position:fixed;top:0;left:0;width:100%;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:16px 7%;
+    background:rgba(3,4,8,.82);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+.logo{font-family:'Bebas Neue';font-size:32px;letter-spacing:2px}
+.logo span{color:#e31b23}
+nav ul{display:flex;gap:24px;list-style:none}
+nav a{color:#ddd;text-decoration:none;font-size:13px;font-weight:600}
+nav a:hover{color:#e31b23}
+.nav-btn{
+    background:#e31b23;padding:9px 16px;border-radius:7px;
+    box-shadow:0 0 20px rgba(227,27,35,.3)
+}
+
+.hero{
+    min-height:100vh;
+    padding:130px 7% 80px;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:50px;position:relative;
+}
+.hero-content{max-width:720px;animation:heroIn 1s ease}
+@keyframes heroIn{from{opacity:0;transform:translateY(45px)}to{opacity:1;transform:none}}
+.kicker{
+    display:inline-block;padding:8px 14px;border:1px solid #e31b23;
+    border-radius:30px;color:#ff8b8f;font-size:12px;letter-spacing:2px;
+    margin-bottom:18px;background:#e31b2310
+}
+.hero h1{
+    font-family:'Bebas Neue';font-size:clamp(72px,11vw,145px);
+    line-height:.8;letter-spacing:3px;text-shadow:8px 8px 0 #8e1017;
+}
+.hero h1 span{color:#1c65d1;text-shadow:5px 5px 0 #071f4f}
+.hero p{color:#b9bbc5;max-width:620px;line-height:1.8;margin-top:28px}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{padding:14px 22px;border-radius:8px;text-decoration:none;font-weight:800;transition:.3s}
+.red{background:#e31b23;color:#fff;box-shadow:0 10px 30px #e31b2333}
+.blue{border:1px solid #1c65d1;color:#fff;background:#1c65d110}
+.btn:hover{transform:translateY(-4px)}
+
+.spider-symbol{
+    width:360px;height:360px;border-radius:50%;position:relative;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle,#10141f 0 40%,#0b0d14 41% 100%);
+    border:1px solid #ffffff20;
+    box-shadow:0 0 80px #e31b2320, inset 0 0 60px #1c65d125;
+    animation:float 5s ease-in-out infinite;
+}
+@keyframes float{50%{transform:translateY(-18px) rotate(2deg)}}
+.spider{
+    width:80px;height:130px;background:#e31b23;border-radius:50%;
+    position:relative;box-shadow:0 0 30px #e31b2360
+}
+.spider:before,.spider:after{
+    content:"";position:absolute;top:48px;width:150px;height:7px;background:#e31b23
+}
+.spider:before{right:55px;transform:rotate(28deg);box-shadow:0 28px 0 #e31b23,0 -28px 0 #e31b23}
+.spider:after{left:55px;transform:rotate(-28deg);box-shadow:0 28px 0 #e31b23,0 -28px 0 #e31b23}
+.spider i{
+    position:absolute;width:30px;height:30px;border:5px solid #fff;border-radius:50%;
+    left:25px;top:25px;opacity:.8
+}
+
+section{padding:100px 7%}
+.section-title{text-align:center;margin-bottom:45px}
+.section-title small{color:#e31b23;letter-spacing:3px;font-weight:700}
+.section-title h2{font-family:'Bebas Neue';font-size:58px;letter-spacing:2px;margin-top:5px}
+.section-title p{color:#8f929d;margin-top:5px}
+
+.filters{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.filter{
+    border:1px solid #333;background:#ffffff05;color:#aaa;
+    padding:9px 15px;border-radius:25px;cursor:pointer
+}
+.filter.active,.filter:hover{background:#e31b23;color:#fff;border-color:#e31b23}
+
+.movies{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    gap:22px
+}
+.movie{
+    min-height:390px;padding:22px;border:1px solid #ffffff13;
+    border-radius:15px;position:relative;overflow:hidden;
+    background:linear-gradient(145deg,#ffffff0b,#ffffff02);
+    transition:.4s;display:flex;flex-direction:column
+}
+.movie:before{
+    content:"";position:absolute;inset:-100px;
+    background:radial-gradient(circle at 80% 20%,#e31b2320,transparent 35%);
+    pointer-events:none
+}
+.movie:hover{transform:translateY(-10px);border-color:#e31b2380;box-shadow:0 20px 50px #0008}
+.poster{
+    height:170px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(circle at 50% 35%,#e31b23 0 8%,transparent 9%),
+      linear-gradient(135deg,#131a2b,#090b10);
+    border:1px solid #ffffff12;position:relative;overflow:hidden
+}
+.poster:after{
+    content:"";position:absolute;width:170px;height:170px;border-radius:50%;
+    border:1px solid #ffffff12;box-shadow:0 0 0 20px #ffffff05,0 0 0 40px #ffffff03
+}
+
+.poster img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .6s ease, filter .6s ease;
+}
+.movie:hover .poster img{
+    transform:scale(1.08);
+    filter:saturate(1.12) contrast(1.05);
+}
+.poster:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:2;
+    background:linear-gradient(to top,rgba(0,0,0,.55),transparent 45%);
+    pointer-events:none;
+}
+
+.poster-text{font-family:'Bebas Neue';font-size:27px;z-index:2;text-align:center;letter-spacing:1px}
+.meta{display:flex;justify-content:space-between;margin-top:15px;color:#e31b23;font-size:12px;font-weight:700}
+.movie h3{font-size:20px;margin:8px 0}
+.movie p{color:#999;font-size:13px;line-height:1.65;flex:1}
+.movie .watch{
+    display:inline-block;margin-top:18px;text-align:center;
+    padding:11px;border-radius:7px;background:#e31b23;color:white;
+    text-decoration:none;font-size:13px;font-weight:700
+}
+.movie .watch:hover{background:#b91017}
+
+.info{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px
+}
+.info-card{
+    padding:28px;border:1px solid #ffffff12;border-radius:15px;
+    background:#ffffff05;text-align:center
+}
+.info-card b{font-family:'Bebas Neue';font-size:40px;color:#e31b23}
+.info-card p{color:#999;font-size:13px;margin-top:5px}
+
+.timeline{max-width:900px;margin:auto}
+.row{display:grid;grid-template-columns:100px 1fr;gap:25px;padding:20px 0;border-bottom:1px solid #ffffff12}
+.year{font-family:'Bebas Neue';font-size:27px;color:#1c65d1}
+.row h3{font-size:19px}.row p{color:#999;font-size:13px;margin-top:5px}
+
+footer{
+    padding:35px 7%;border-top:1px solid #ffffff12;
+    display:flex;justify-content:space-between;color:#777;font-size:12px
+}
+
+.web-shoot{
+    position:fixed;right:25px;bottom:25px;z-index:40;
+    width:60px;height:60px;border-radius:50%;
+    background:#e31b23;color:#fff;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;font-size:25px;box-shadow:0 0 30px #e31b2355;
+    animation:pulse 2s infinite
+}
+@keyframes pulse{50%{box-shadow:0 0 0 12px #e31b2310,0 0 35px #e31b2360}}
+
+.reveal{opacity:0;transform:translateY(30px);transition:.8s}.reveal.show{opacity:1;transform:none}
+
+@media(max-width:850px){
+    nav ul{display:none}
+    .hero{flex-direction:column;text-align:center;padding-top:125px}
+    .hero p{margin:auto}.hero-buttons{justify-content:center}
+    .spider-symbol{width:280px;height:280px}
+    .info{grid-template-columns:1fr}
+    .row{grid-template-columns:70px 1fr}
+    footer{flex-direction:column;gap:10px;text-align:center}
+}
+
+.developer-credit{
+    font-family:'Great Vibes',cursive;
+    font-size:24px;
+    letter-spacing:.8px;
+    color:#f4f4f4;
+    text-shadow:0 0 12px rgba(227,27,35,.35);
+}
+.developer-credit span{color:#e31b23}
+
+
+/* Spider-Man opening web-shoot animation */
+#spider-intro{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:#05070c;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    animation:introFade 1s ease 3.8s forwards;
+}
+.intro-web{
+    position:absolute;
+    top:-15%;
+    left:50%;
+    width:3px;
+    height:70vh;
+    background:linear-gradient(#fff,#dce9ff55,transparent);
+    transform-origin:top;
+    animation:webDrop .9s cubic-bezier(.2,.8,.2,1) .2s both;
+    box-shadow:0 0 12px #fff;
+}
+.intro-spider{
+    position:absolute;
+    top:-110px;
+    left:calc(50% - 42px);
+    width:84px;
+    height:105px;
+    animation:spiderSwing 2.2s cubic-bezier(.2,.8,.2,1) .7s forwards;
+    transform-origin:top center;
+}
+.intro-body{
+    position:absolute;
+    left:25px;top:30px;
+    width:34px;height:47px;
+    border-radius:48% 48% 42% 42%;
+    background:linear-gradient(160deg,#e31b23 0 55%,#151a26 56%);
+    box-shadow:0 0 25px #e31b2355;
+}
+.intro-head{
+    position:absolute;
+    left:27px;top:8px;
+    width:30px;height:30px;border-radius:50%;
+    background:#e31b23;
+}
+.intro-eye{
+    position:absolute;
+    top:15px;width:12px;height:18px;
+    background:white;border:2px solid #111;
+    transform:skew(-12deg);border-radius:60% 40%;
+}
+.intro-eye.left{left:29px}.intro-eye.right{right:29px;transform:skew(12deg)}
+.intro-leg,.intro-arm{
+    position:absolute;
+    width:8px;height:50px;
+    background:#e31b23;border-radius:8px;
+    transform-origin:top center;
+}
+.intro-arm.left{left:27px;top:40px;transform:rotate(48deg)}
+.intro-arm.right{right:27px;top:40px;transform:rotate(-48deg)}
+.intro-leg.left{left:32px;top:67px;transform:rotate(25deg)}
+.intro-leg.right{right:32px;top:67px;transform:rotate(-25deg)}
+.web-shot{
+    position:absolute;
+    width:0;height:3px;
+    top:50%;left:50%;
+    background:#fff;
+    box-shadow:0 0 10px #fff;
+    transform-origin:left center;
+    animation:webShoot .75s ease 1.9s forwards;
+}
+.web-shot:after{
+    content:"";
+    position:absolute;right:-8px;top:-4px;
+    width:10px;height:10px;border-radius:50%;
+    background:white;box-shadow:0 0 18px white;
+}
+.intro-title{
+    position:absolute;
+    top:62%;
+    width:100%;
+    text-align:center;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(45px,8vw,90px);
+    letter-spacing:7px;
+    color:#fff;
+    opacity:0;
+    animation:titlePop .8s ease 2.15s forwards;
+    text-shadow:5px 5px 0 #8e1017,0 0 35px #e31b2360;
+}
+.intro-title span{color:#1c65d1}
+.intro-sparks{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 50% 50%,#fff 0 1px,transparent 2px),
+      radial-gradient(circle at 42% 44%,#e31b23 0 1px,transparent 2px),
+      radial-gradient(circle at 60% 48%,#1c65d1 0 1px,transparent 2px);
+    background-size:90px 90px,130px 130px,160px 160px;
+    opacity:0;
+    animation:sparks .7s ease 2s forwards;
+}
+@keyframes webDrop{from{height:0;opacity:0}to{height:70vh;opacity:1}}
+@keyframes spiderSwing{
+    0%{top:-110px;transform:rotate(0deg)}
+    55%{top:22%;transform:rotate(5deg)}
+    75%{top:18%;transform:rotate(-4deg)}
+    100%{top:20%;transform:rotate(0deg)}
+}
+@keyframes webShoot{from{width:0}to{width:42vw}}
+@keyframes titlePop{from{opacity:0;transform:scale(.75) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes sparks{to{opacity:.65;transform:scale(1.2)}}
+@keyframes introFade{to{opacity:0;visibility:hidden;pointer-events:none}}
+
+
+.trailer-modal{
+    position:fixed;inset:0;z-index:10000;
+    display:none;align-items:center;justify-content:center;
+    padding:25px;background:rgba(0,0,0,.86);backdrop-filter:blur(12px);
+}
+.trailer-modal.open{display:flex;animation:modalIn .25s ease}
+@keyframes modalIn{from{opacity:0}to{opacity:1}}
+.trailer-box{
+    width:min(1000px,94vw);background:#0b0d13;
+    border:1px solid #e31b23;border-radius:16px;padding:14px;
+    box-shadow:0 25px 100px #000;
+    position:relative;
+}
+.trailer-box h3{
+    font-family:'Bebas Neue';font-size:28px;letter-spacing:1px;
+    padding:7px 45px 12px 8px;
+}
+.trailer-frame{
+    width:100%;aspect-ratio:16/9;border:0;border-radius:10px;
+    background:#000;
+}
+.close-trailer{
+    position:absolute;right:15px;top:12px;
+    width:35px;height:35px;border:1px solid #444;border-radius:50%;
+    background:#161820;color:#fff;font-size:22px;cursor:pointer;
+}
+.close-trailer:hover{background:#e31b23;border-color:#e31b23}
+.youtube-fallback{
+    aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:15px;background:#10131b;border-radius:10px;
+    text-align:center;padding:25px;
+}
+.youtube-fallback p{color:#999}
+.youtube-fallback a{
+    padding:12px 18px;background:#e31b23;color:#fff;text-decoration:none;
+    border-radius:7px;font-weight:700;
+}
+.movie{cursor:pointer}
+
+
+/* Gallery */
+.gallery-controls{
+    display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:32px;
+}
+.gallery-search{
+    width:min(430px,90vw);padding:13px 16px;border-radius:30px;
+    border:1px solid #333;background:#0d1017;color:#fff;outline:none;
+}
+.gallery-search:focus{border-color:#e31b23;box-shadow:0 0 20px #e31b2315}
+.gallery{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;
+}
+.gallery-card{
+    background:#ffffff06;border:1px solid #ffffff12;border-radius:14px;
+    overflow:hidden;transition:.35s;position:relative;
+}
+.gallery-card:hover{transform:translateY(-8px);border-color:#e31b2380;box-shadow:0 20px 45px #0008}
+.gallery-img-wrap{height:250px;overflow:hidden;position:relative;background:#10131b}
+.gallery-img-wrap img{
+    width:100%;height:100%;object-fit:cover;display:block;transition:.5s;
+}
+.gallery-card:hover img{transform:scale(1.07)}
+.gallery-info{padding:16px}
+.gallery-info h3{font-size:17px;margin-bottom:5px}
+.gallery-info p{font-size:11px;color:#777;line-height:1.5;min-height:34px}
+.gallery-actions{display:flex;gap:8px;margin-top:13px}
+.gallery-btn{
+    flex:1;padding:10px 8px;text-align:center;border-radius:7px;
+    text-decoration:none;font-size:12px;font-weight:700;border:1px solid #333;
+    color:#ddd;background:#ffffff05;
+}
+.gallery-btn.download{background:#e31b23;border-color:#e31b23;color:#fff}
+.gallery-btn:hover{filter:brightness(1.15)}
+.gallery-note{
+    text-align:center;color:#666;font-size:11px;margin-top:25px;line-height:1.6
+}
+
+
+.gallery-img-wrap.image-error:after{
+    content:"Movie still unavailable — click View to open the source";
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    text-align:center;padding:20px;color:#999;background:#10131b;font-size:12px;
+}
+
+</style>
+</head>
+<body>
+
+<div id="spider-intro" aria-label="Spider-Man web shooting intro">
+    <div class="intro-sparks"></div>
+    <div class="intro-web"></div>
+    <div class="intro-spider">
+        <div class="intro-head"></div>
+        <div class="intro-eye left"></div>
+        <div class="intro-eye right"></div>
+        <div class="intro-body"></div>
+        <div class="intro-arm left"></div>
+        <div class="intro-arm right"></div>
+        <div class="intro-leg left"></div>
+        <div class="intro-leg right"></div>
+    </div>
+    <div class="web-shot"></div>
+    <div class="intro-title">SPIDER<span>-VERSE</span></div>
+</div>
+
+
+<nav>
+    <div class="logo">SPIDER<span>-VERSE</span></div>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#movies">Movies</a></li>
+        <li><a href="#timeline">Timeline</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+    </ul>
+    <a class="nav-btn" href="#movies">Explore</a>
+</nav>
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <div class="kicker">THE SPIDER-MAN MOVIE UNIVERSE</div>
+        <h1>WITH GREAT<br><span>MOVIES</span><br>COMES GREAT<br>MEMORIES.</h1>
+        <p>
+            Explore the major Spider-Man theatrical movie series across the
+            Tobey Maguire, Andrew Garfield, Tom Holland and animated Spider-Verse eras.
+            Discover release years, cast, story details and official movie pages.
+        </p>
+        <div class="hero-buttons">
+            <a class="btn red" href="#movies">Explore Movies ↓</a>
+            <a class="btn blue" href="#timeline">View Timeline</a>
+        </div>
+    </div>
+
+    <div class="spider-symbol" aria-label="Spider-Man inspired symbol">
+        <div class="spider"><i></i></div>
+    </div>
+</section>
+
+<section id="movies" class="reveal">
+    <div class="section-title">
+        <small>THE COLLECTION</small>
+        <h2>SPIDER-MAN MOVIES</h2>
+        <p>Live-action and animated theatrical films</p>
+    </div>
+
+    <div class="filters">
+        <button class="filter active" onclick="filterMovies('all',this)">All</button>
+        <button class="filter" onclick="filterMovies('tobey',this)">Tobey</button>
+        <button class="filter" onclick="filterMovies('andrew',this)">Andrew</button>
+        <button class="filter" onclick="filterMovies('tom',this)">Tom Holland</button>
+        <button class="filter" onclick="filterMovies('animated',this)">Animated</button>
+    </div>
+
+    <div class="movies">
+
+        <article class="movie" data-era="tobey">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/wSdPLwKmjSH55UH9zeYI37A9pwp.jpg" alt="Spider-Man poster" loading="lazy">
+</div>
+            <div class="meta"><span>2002</span><span>TOBEY MAGUIRE</span></div>
+            <h3>Spider-Man</h3>
+            <p>Peter Parker gains spider powers and faces Norman Osborn's Green Goblin while learning what responsibility really means.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/watch?v=t06RUxPbp_c" target="_blank" rel="noopener noreferrer">▶ Watch Official Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="tobey">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/dlDaV3jStiQWoW7PbI1ga2uDtqz.jpg" alt="Spider-Man 2 poster" loading="lazy">
+</div>
+            <div class="meta"><span>2004</span><span>TOBEY MAGUIRE</span></div>
+            <h3>Spider-Man 2</h3>
+            <p>Peter struggles to balance his personal life with being Spider-Man while confronting the brilliant Doctor Octavius.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/watch?v=CA5vsCnLm34" target="_blank" rel="noopener noreferrer">▶ Watch Official Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="tobey">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/saO9wZLuPPN2RivUkajEzQtSitf.jpg" alt="Spider-Man 3 poster" loading="lazy">
+</div>
+            <div class="meta"><span>2007</span><span>TOBEY MAGUIRE</span></div>
+            <h3>Spider-Man 3</h3>
+            <p>Peter faces new threats including Sandman and Venom while a mysterious alien symbiote changes his powers and personality.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/watch?v=e5wUilOeOmg" target="_blank" rel="noopener noreferrer">▶ Watch Official Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="andrew">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/sLWUtbrpiLp23a0XDSiUiltdFPJ.jpg" alt="The Amazing Spider-Man poster" loading="lazy">
+</div>
+            <div class="meta"><span>2012</span><span>ANDREW GARFIELD</span></div>
+            <h3>The Amazing Spider-Man</h3>
+            <p>Peter Parker investigates the mystery of his parents while discovering his powers and facing Dr. Curt Connors.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/watch?v=upwf8RsyNqQ" target="_blank" rel="noopener noreferrer">▶ Watch Official Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="andrew">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/mUjWof8LHDgCZC9mFp0UYKBf1Dm.jpg" alt="The Amazing Spider-Man 2 poster" loading="lazy">
+</div>
+            <div class="meta"><span>2014</span><span>ANDREW GARFIELD</span></div>
+            <h3>The Amazing Spider-Man 2</h3>
+            <p>Peter protects New York as Electro emerges and Harry Osborn returns, bringing new danger into his life.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/results?search_query=The+Amazing+Spider-Man+2+official+trailer" target="_blank" rel="noopener noreferrer">▶ Find Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="tom">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/vMNEvp4wKAkDIODZjz5BsqVWY9y.jpg" alt="Spider-Man: Homecoming poster" loading="lazy">
+</div>
+            <div class="meta"><span>2017</span><span>TOM HOLLAND</span></div>
+            <h3>Spider-Man: Homecoming</h3>
+            <p>Peter tries to prove himself as a hero while facing Adrian Toomes and learning to become a better Spider-Man.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/watch?v=I1HSlIDNBGY" target="_blank" rel="noopener noreferrer">▶ Watch Official Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="animated">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/7d6EY00g1c39SGZOoCJ5Py9nNth.jpg" alt="Spider-Man: Into the Spider-Verse poster" loading="lazy">
+</div>
+            <div class="meta"><span>2018</span><span>ANIMATED</span></div>
+            <h3>Spider-Man: Into the Spider-Verse</h3>
+            <p>Miles Morales discovers a multiverse of Spider-heroes and learns that anyone can wear the mask.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/watch?v=g4Hbz2jLxvQ" target="_blank" rel="noopener noreferrer">▶ Watch Official Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="tom">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg" alt="Spider-Man: Far From Home poster" loading="lazy">
+</div>
+            <div class="meta"><span>2019</span><span>TOM HOLLAND</span></div>
+            <h3>Spider-Man: Far From Home</h3>
+            <p>Peter travels through Europe but is pulled into a new mission involving mysterious elemental threats and Mysterio.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/results?search_query=Spider-Man%3A+Far+From+Home+official+trailer" target="_blank" rel="noopener noreferrer">▶ Find Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="tom">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg" alt="Spider-Man: No Way Home poster" loading="lazy">
+</div>
+            <div class="meta"><span>2021</span><span>TOM HOLLAND</span></div>
+            <h3>Spider-Man: No Way Home</h3>
+            <p>Peter's identity is exposed, and a spell opens the door to villains from other Spider-Man worlds.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/watch?v=ZYzbalQ6Lg8" target="_blank" rel="noopener noreferrer">▶ Watch Official Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="animated">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/clAVSS8aJZYblELE4GA2tuJXYWT.jpg" alt="Spider-Man: Across the Spider-Verse poster" loading="lazy">
+</div>
+            <div class="meta"><span>2023</span><span>ANIMATED</span></div>
+            <h3>Spider-Man: Across the Spider-Verse</h3>
+            <p>Miles travels across the Spider-Verse and encounters a huge community of Spider-heroes with different ideas about destiny.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/results?search_query=Spider-Man%3A+Across+the+Spider-Verse+official+trailer" target="_blank" rel="noopener noreferrer">▶ Find Trailer on YouTube ↗</a>
+        </article>
+
+        <article class="movie" data-era="tom">
+            <div class="poster">
+<img src="https://image.tmdb.org/t/p/w500/yyB2VJEW3an2xCdcYCPQhn9QERR.jpg" alt="Spider-Man: Brand New Day poster" loading="lazy">
+</div>
+            <div class="meta"><span>2026</span><span>TOM HOLLAND</span></div>
+            <h3>Spider-Man: Brand New Day</h3>
+            <p>The next chapter of Tom Holland's Spider-Man story. Sony lists the film as a 2026 theatrical release.</p>
+            <a class="watch trailer-trigger" href="https://www.youtube.com/watch?v=8TZMtslA3UY" target="_blank" rel="noopener noreferrer">▶ Watch Official Trailer on YouTube ↗</a>
+        </article>
+
+    </div>
+</section>
+
+<section id="timeline" class="reveal">
+    <div class="section-title">
+        <small>SPIDER TIMELINE</small>
+        <h2>RELEASE ORDER</h2>
+        <p>A simple way to explore the major theatrical films</p>
+    </div>
+
+    <div class="timeline">
+        <div class="row"><div class="year">2002</div><div><h3>Spider-Man</h3><p>Tobey Maguire era begins.</p></div></div>
+        <div class="row"><div class="year">2004</div><div><h3>Spider-Man 2</h3><p>The sequel introduces Doctor Octopus.</p></div></div>
+        <div class="row"><div class="year">2007</div><div><h3>Spider-Man 3</h3><p>The original trilogy concludes.</p></div></div>
+        <div class="row"><div class="year">2012</div><div><h3>The Amazing Spider-Man</h3><p>Andrew Garfield's era begins.</p></div></div>
+        <div class="row"><div class="year">2014</div><div><h3>The Amazing Spider-Man 2</h3><p>The second Garfield film.</p></div></div>
+        <div class="row"><div class="year">2017</div><div><h3>Spider-Man: Homecoming</h3><p>Tom Holland's solo MCU trilogy begins.</p></div></div>
+        <div class="row"><div class="year">2018</div><div><h3>Into the Spider-Verse</h3><p>Miles Morales leads the animated Spider-Verse.</p></div></div>
+        <div class="row"><div class="year">2019</div><div><h3>Spider-Man: Far From Home</h3><p>Peter's MCU story continues after Endgame.</p></div></div>
+        <div class="row"><div class="year">2021</div><div><h3>Spider-Man: No Way Home</h3><p>The multiverse brings Spider-Man worlds together.</p></div></div>
+        <div class="row"><div class="year">2023</div><div><h3>Across the Spider-Verse</h3><p>Miles' animated multiverse adventure continues.</p></div></div>
+        <div class="row"><div class="year">2026</div><div><h3>Spider-Man: Brand New Day</h3><p>The next Tom Holland Spider-Man chapter.</p></div></div>
+    </div>
+</section>
+
+
+
+<section id="gallery" class="reveal">
+    <div class="section-title">
+        <small>THE SPIDER GALLERY</small>
+        <h2>MOVIE MOMENTS</h2>
+        <p>Spider-Man movie stills from different cinematic eras.</p>
+    </div>
+    <div class="gallery-controls">
+        <input id="gallerySearch" class="gallery-search" type="search"
+               placeholder="🔍 Search movie stills..." oninput="searchGallery(this.value)">
+    </div>
+    <div class="gallery">
+        
+        <article class="gallery-card" data-gallery-title="spider-man">
+            <div class="gallery-img-wrap">
+                <img src="https://www.sonypictures.com/sites/default/files/styles/max_2600x2600/public/title-key-art/spiderman_2002_hero.jpg" alt="Spider-Man movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>Spider-Man</h3>
+                <p>Movie still / official film imagery</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://www.sonypictures.com/sites/default/files/styles/max_2600x2600/public/title-key-art/spiderman_2002_hero.jpg" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://www.sonypictures.com/sites/default/files/styles/max_2600x2600/public/title-key-art/spiderman_2002_hero.jpg" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+        <article class="gallery-card" data-gallery-title="spider-man 2">
+            <div class="gallery-img-wrap">
+                <img src="https://www.railtarget.eu/images/theme/20250314160217_-2025-03-14-16.02.01_2.png" alt="Spider-Man 2 movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>Spider-Man 2</h3>
+                <p>Spider-Man 2 train sequence still</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://www.railtarget.eu/images/theme/20250314160217_-2025-03-14-16.02.01_2.png" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://www.railtarget.eu/images/theme/20250314160217_-2025-03-14-16.02.01_2.png" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+        <article class="gallery-card" data-gallery-title="spider-man 3">
+            <div class="gallery-img-wrap">
+                <img src="https://lostfilm.info/images/photo/104/406104_1034998.jpg" alt="Spider-Man 3 movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>Spider-Man 3</h3>
+                <p>Spider-Man 3 action still</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://lostfilm.info/images/photo/104/406104_1034998.jpg" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://lostfilm.info/images/photo/104/406104_1034998.jpg" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+        <article class="gallery-card" data-gallery-title="the amazing spider-man">
+            <div class="gallery-img-wrap">
+                <img src="https://www.femalefirst.co.uk/image-library/land/1000/a/andrew-garfield-spiderman.jpg" alt="The Amazing Spider-Man movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>The Amazing Spider-Man</h3>
+                <p>The Amazing Spider-Man action still</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://www.femalefirst.co.uk/image-library/land/1000/a/andrew-garfield-spiderman.jpg" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://www.femalefirst.co.uk/image-library/land/1000/a/andrew-garfield-spiderman.jpg" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+        <article class="gallery-card" data-gallery-title="the amazing spider-man 2">
+            <div class="gallery-img-wrap">
+                <img src="https://imgix.bustle.com/uploads/image/2021/11/9/307d3b4a-8d4f-4794-85f9-be74aaff7f0b-electro.jpg" alt="The Amazing Spider-Man 2 movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>The Amazing Spider-Man 2</h3>
+                <p>Electro sequence still</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://imgix.bustle.com/uploads/image/2021/11/9/307d3b4a-8d4f-4794-85f9-be74aaff7f0b-electro.jpg" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://imgix.bustle.com/uploads/image/2021/11/9/307d3b4a-8d4f-4794-85f9-be74aaff7f0b-electro.jpg" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+        <article class="gallery-card" data-gallery-title="spider-man: homecoming">
+            <div class="gallery-img-wrap">
+                <img src="https://www.businessinsider.com/wp-content/uploads/2017/06/59557b2d8a6f8e1c008b45b4.jpg" alt="Spider-Man: Homecoming movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>Spider-Man: Homecoming</h3>
+                <p>Homecoming action still</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://www.businessinsider.com/wp-content/uploads/2017/06/59557b2d8a6f8e1c008b45b4.jpg" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://www.businessinsider.com/wp-content/uploads/2017/06/59557b2d8a6f8e1c008b45b4.jpg" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+        <article class="gallery-card" data-gallery-title="spider-man: into the spider-verse">
+            <div class="gallery-img-wrap">
+                <img src="https://static.wixstatic.com/media/9512a5_07763c4bc5f546c1b126e18d993b3035~mv2_d_1200_1200_s_2.png/v1/fill/w_980%2Ch_980%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/9512a5_07763c4bc5f546c1b126e18d993b3035~mv2_d_1200_1200_s_2.png" alt="Spider-Man: Into the Spider-Verse movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>Spider-Man: Into the Spider-Verse</h3>
+                <p>Miles Morales movie still</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://static.wixstatic.com/media/9512a5_07763c4bc5f546c1b126e18d993b3035~mv2_d_1200_1200_s_2.png/v1/fill/w_980%2Ch_980%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/9512a5_07763c4bc5f546c1b126e18d993b3035~mv2_d_1200_1200_s_2.png" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://static.wixstatic.com/media/9512a5_07763c4bc5f546c1b126e18d993b3035~mv2_d_1200_1200_s_2.png/v1/fill/w_980%2Ch_980%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/9512a5_07763c4bc5f546c1b126e18d993b3035~mv2_d_1200_1200_s_2.png" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+        <article class="gallery-card" data-gallery-title="spider-man: far from home">
+            <div class="gallery-img-wrap">
+                <img src="https://m.media-amazon.com/images/M/MV5BMzM1OTQ0MTUzNF5BMl5BanBnXkFtZTgwMTIwMTgxNzM%40._V1_.jpg" alt="Spider-Man: Far From Home movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>Spider-Man: Far From Home</h3>
+                <p>Far From Home Venice sequence still</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://m.media-amazon.com/images/M/MV5BMzM1OTQ0MTUzNF5BMl5BanBnXkFtZTgwMTIwMTgxNzM%40._V1_.jpg" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://m.media-amazon.com/images/M/MV5BMzM1OTQ0MTUzNF5BMl5BanBnXkFtZTgwMTIwMTgxNzM%40._V1_.jpg" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+        <article class="gallery-card" data-gallery-title="spider-man: no way home">
+            <div class="gallery-img-wrap">
+                <img src="https://specials-images.forbesimg.com/imageserve/61bf9e56965c7f919216cac4/spider-man-no-way-home-tom-holland-benedict-cumberbatch-peter-park-doctor-strange-162/960x0.jpg?fit=scale" alt="Spider-Man: No Way Home movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>Spider-Man: No Way Home</h3>
+                <p>No Way Home Spider-Man and Doctor Strange still</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://specials-images.forbesimg.com/imageserve/61bf9e56965c7f919216cac4/spider-man-no-way-home-tom-holland-benedict-cumberbatch-peter-park-doctor-strange-162/960x0.jpg?fit=scale" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://specials-images.forbesimg.com/imageserve/61bf9e56965c7f919216cac4/spider-man-no-way-home-tom-holland-benedict-cumberbatch-peter-park-doctor-strange-162/960x0.jpg?fit=scale" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+        <article class="gallery-card" data-gallery-title="spider-man: across the spider-verse">
+            <div class="gallery-img-wrap">
+                <img src="https://www.cinemablend.com/wp-content/uploads/2023/03/spider-man-across-the-spider-verse-miles-gwen.jpg" alt="Spider-Man: Across the Spider-Verse movie still" loading="lazy"
+                     onerror="this.parentElement.classList.add('image-error')">
+            </div>
+            <div class="gallery-info">
+                <h3>Spider-Man: Across the Spider-Verse</h3>
+                <p>Miles Morales and Gwen Stacy movie still</p>
+                <div class="gallery-actions">
+                    <a class="gallery-btn" href="https://www.cinemablend.com/wp-content/uploads/2023/03/spider-man-across-the-spider-verse-miles-gwen.jpg" target="_blank" rel="noopener noreferrer">View ↗</a>
+                    <a class="gallery-btn download" href="https://www.cinemablend.com/wp-content/uploads/2023/03/spider-man-across-the-spider-verse-miles-gwen.jpg" target="_blank" rel="noopener noreferrer">Open / Save ↗</a>
+                </div>
+            </div>
+        </article>
+    
+    </div>
+    <div class="gallery-note">
+        These are movie stills/film imagery hosted by third-party pages. For public/commercial use,
+        check the image owner's copyright and license terms. The gallery links open the source image/page.
+    </div>
+</section>
+
+<section id="about" class="reveal">
+    <div class="section-title">
+        <small>THE SPIDER-MAN LEGACY</small>
+        <h2>ONE MASK. MANY HEROES.</h2>
+        <p>This fan-style movie guide focuses on the major theatrical Spider-Man film series.</p>
+    </div>
+    <div class="info">
+        <div class="info-card"><b>3</b><p>Live-action Spider-Man eras represented</p></div>
+        <div class="info-card"><b>2</b><p>Animated Spider-Verse films currently released</p></div>
+        <div class="info-card"><b>11</b><p>Major theatrical films listed on this guide</p></div>
+    </div>
+</section>
+
+
+<div class="trailer-modal" id="trailerModal" role="dialog" aria-modal="true" aria-label="Movie trailer">
+    <div class="trailer-box">
+        <button class="close-trailer" onclick="closeTrailer()" aria-label="Close trailer">×</button>
+        <h3 id="trailerTitle">Spider-Man Trailer</h3>
+        <div id="trailerContent"></div>
+    </div>
+</div>
+
+<a class="web-shoot" href="#home" title="Back to top">🕷</a>
+
+<footer>
+    <div>© 2026 Spider-Verse Fan Guide</div>
+    <div class="developer-credit">Developer: <span>Spider-Man Fan Dev</span></div>
+    <div>Movie links point to official studio pages where available.</div>
+</footer>
+
+<script>
+const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')})
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+function filterMovies(type,button){
+    document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
+    button.classList.add('active');
+    document.querySelectorAll('.movie').forEach(card=>{
+        card.style.display=(type==='all'||card.dataset.era===type)?'flex':'none';
+    });
+}
+
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        const intro = document.getElementById("spider-intro");
+        if (intro) intro.remove();
+    }, 5000);
+});
+
+
+function openTrailer(event, el){
+    event.preventDefault();
+    const title = el.dataset.title;
+    const video = el.dataset.video;
+    const modal = document.getElementById("trailerModal");
+    const titleEl = document.getElementById("trailerTitle");
+    const content = document.getElementById("trailerContent");
+    titleEl.textContent = title + " — Official Trailer";
+
+    if(video){
+        content.innerHTML =
+          '<iframe class="trailer-frame" src="https://www.youtube.com/embed/' + video +
+          '?autoplay=1&rel=0" title="' + title.replace(/"/g,'&quot;') +
+          ' official trailer" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+    }else{
+        const query = encodeURIComponent(title + " official trailer Sony Pictures Marvel");
+        content.innerHTML =
+          '<div class="youtube-fallback">' +
+          '<p>Official trailer link is available through YouTube search.</p>' +
+          '<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=' +
+          query + '">Open Official Trailer Search ↗</a></div>';
+    }
+    modal.classList.add("open");
+    document.body.style.overflow="hidden";
+}
+function closeTrailer(){
+    const modal=document.getElementById("trailerModal");
+    modal.classList.remove("open");
+    document.getElementById("trailerContent").innerHTML="";
+    document.body.style.overflow="";
+}
+document.getElementById("trailerModal").addEventListener("click",function(e){
+    if(e.target===this) closeTrailer();
+});
+document.addEventListener("keydown",function(e){
+    if(e.key==="Escape") closeTrailer();
+});
+
+
+function searchGallery(value){
+    const q=value.toLowerCase().trim();
+    document.querySelectorAll(".gallery-card").forEach(card=>{
+        card.style.display=card.dataset.galleryTitle.includes(q)?"block":"none";
+    });
+}
+
+</script>
+</body>
+</html>
